@@ -1,12 +1,9 @@
 let byDistrict = []
 let districts = []
 
-
-
 const groupByDistrict = data => {
   return d3.group(data, d => d.District)
 }
-
 
 const createGraph = (data, iter) => {
   const yScale = d3.scaleBand()
@@ -25,8 +22,9 @@ const createGraph = (data, iter) => {
     .attr("id", `container${iter}`)
 
   const name = d3.select(`#container${iter}`)
-    .append("p")
+    .append("button")
     .classed("districtName", true)
+    .classed('label', true)
     .text(data[0].District)
 
   const svg = d3.select(`#container${iter}`)
@@ -70,12 +68,11 @@ const createLabels = labelsArr => {
     .classed('label', true)
     .style('height', `${500 / labelsArr.length}px`)
     .text(data => data)
-    //.on('click', data => sortDistrictsByCategory(data))
     .on('click', data => sortDistrictsByCategory(data.target.innerText))
 }
 
 const sortDistrictsByCategory = (category) => {
-  byDistrict = byDistrict.sort( (a, b) => b.find(e => e.Category == category).salesInNumber -  a.find(e => e.Category == category).salesInNumber)
+  byDistrict = byDistrict.sort( (a, b) => b.find(e => e.Category == category).salesInNumber - a.find(e => e.Category == category).salesInNumber)
 
   d3.select(".graphsContainer").html("");
 
