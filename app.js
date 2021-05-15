@@ -16,12 +16,20 @@ const createGraph = (data, iter) => {
   const xScale = d3.scaleLinear().domain([100, 0]).range([200, 0])
 
   const findLargestValue = () => {
-    console.log(data.map( item => item.salesInNumber))
-    console.log(Math.max( ...data.map( item => item.salesInNumber)))
     return Math.max( ...data.map( item => item.salesInNumber))
   }
 
-  const svg = d3.select(".graphsContainer")
+  const graphContainer = d3.select(".graphsContainer")
+    .append("div")
+    .classed("graphContainer", true)
+    .attr("id", `container${iter}`)
+
+  const name = d3.select(`#container${iter}`)
+    .append("p")
+    .classed("districtName", true)
+    .text(data[0].District)
+
+  const svg = d3.select(`#container${iter}`)
     .append("svg")
     .attr("id", `graph${iter}`)
 
@@ -62,10 +70,21 @@ const createLabels = labelsArr => {
     .classed('label', true)
     .style('height', `${500 / labelsArr.length}px`)
     .text(data => data)
-    .on('click', () => console.log('hoj'))
+    //.on('click', data => sortDistrictsByCategory(data))
+    .on('click', data => sortDistrictsByCategory(data.target.innerText))
 }
 
+const sortDistrictsByCategory = (category) => {
+  byDistrict = byDistrict.sort( (a, b) => b.find(e => e.Category == category).salesInNumber -  a.find(e => e.Category == category).salesInNumber)
+  console.log(byDistrict)
 
+  d3.select(".graphsContainer").html("");
+
+  createLabels (byDistrict[0].map(item => item.Category))
+  districts.map( (dist, iter) => {
+    createGraph(byDistrict[iter], iter)
+  })
+}
 
 d3.csv("./data1.csv")
   .then( data => groupByDistrict(data) )
@@ -81,7 +100,6 @@ d3.csv("./data1.csv")
         )
       })
 
-      console.log(districts)
       console.log(byDistrict)
 
       createLabels (byDistrict[0].map(item => item.Category))

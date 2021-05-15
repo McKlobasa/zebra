@@ -1,6 +1,15 @@
+body {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+
 .graphsContainer {
   display: flex;
   flex-direction: row;
+  padding: 30px;
+}
+.graphContainer {
+  position: relative;
 }
 .container {
   width: fit-content;
@@ -15,9 +24,27 @@
 #labelsContainer {
   height: 500px;
   width: 100px;
+  padding-right: 20px;
 }
 .labelsContainer {
   display: inline-block;
   width: 100px;
   height: 500px;
+}
+.label {
+  border: none;
+  width: 100%;
+  background: white;
+}
+.label:hover {
+    background: rgb(175, 245, 175);
+}
+.label:active {
+    background: rgb(8, 77, 8);
+    color: white;
+}
+.districtName {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
 }
