@@ -8,7 +8,6 @@ const groupByDistrict = data => {
 }
 
 
-
 const createGraph = (data, iter) => {
   const yScale = d3.scaleBand()
     .domain(data.map( datapoint => datapoint.Category))
@@ -44,7 +43,7 @@ const createGraph = (data, iter) => {
 
 const createLabels = labelsArr => {
   const yScale = d3.scaleBand()
-    .domain(data)
+    .domain(labelsArr)
     .rangeRound([0, 500])
     .padding(0.1)
 
@@ -53,17 +52,17 @@ const createLabels = labelsArr => {
     .attr("id", `labelsContainer`)
 
   const container = d3.select(`#labelsContainer`)
-    .classed('container', true)
+    .classed('labelsContainer', true)
 
   const labels = container
-    .selectAll('.bar')
+    .selectAll('.label')
     .data(labelsArr)
     .enter()
-    .append('p')
+    .append('button')
     .classed('label', true)
-    .attr('y', data => yScale(data))
-    .attr('x',  0)
-    .text(data => console.log(data))
+    .style('height', `${500 / labelsArr.length}px`)
+    .text(data => data)
+    .on('click', () => console.log('hoj'))
 }
 
 

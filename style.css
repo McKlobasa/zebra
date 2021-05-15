@@ -1,9 +1,13 @@
-
+.graphsContainer {
+  display: flex;
+  flex-direction: row;
+}
 .container {
   width: fit-content;
   height: 500px;
   border-left: 3px solid #008321;
   padding: 2px;
+  display: inline-block;
 }
 .bar {
   fill: rgb(192, 60, 60);
@@ -11,4 +15,9 @@
 #labelsContainer {
   height: 500px;
   width: 100px;
+}
+.labelsContainer {
+  display: inline-block;
+  width: 100px;
+  height: 500px;
 }
