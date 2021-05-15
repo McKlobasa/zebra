@@ -76,7 +76,6 @@ const createLabels = labelsArr => {
 
 const sortDistrictsByCategory = (category) => {
   byDistrict = byDistrict.sort( (a, b) => b.find(e => e.Category == category).salesInNumber -  a.find(e => e.Category == category).salesInNumber)
-  console.log(byDistrict)
 
   d3.select(".graphsContainer").html("");
 
