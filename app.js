@@ -26,6 +26,7 @@ const createGraph = (data, iter) => {
     .classed("districtName", true)
     .classed('label', true)
     .text(data[0].District)
+    .on('click', data => sortSalesInDistrict(data.target.innerText))
 
   const svg = d3.select(`#container${iter}`)
     .append("svg")
@@ -71,15 +72,38 @@ const createLabels = labelsArr => {
     .on('click', data => sortDistrictsByCategory(data.target.innerText))
 }
 
-const sortDistrictsByCategory = (category) => {
-  byDistrict = byDistrict.sort( (a, b) => b.find(e => e.Category == category).salesInNumber - a.find(e => e.Category == category).salesInNumber)
-
-  d3.select(".graphsContainer").html("");
-
-  createLabels (byDistrict[0].map(item => item.Category))
+const createGraphs = () => {
   districts.map( (dist, iter) => {
     createGraph(byDistrict[iter], iter)
   })
+}
+
+const updateGraphs = () => {
+  d3.select(".graphsContainer").html("");
+  createLabels (byDistrict[0].map(item => item.Category))
+  createGraphs()
+}
+
+
+const sortDistrictsByCategory = (category) => {
+  byDistrict = byDistrict.sort( (a, b) => b.find(e => e.Category == category).salesInNumber - a.find(e => e.Category == category).salesInNumber)
+  updateGraphs()
+}
+
+
+const getSortArr = ( source ) => {
+  let arr = source
+  arr = arr.map( (e,i) => {return {...e, number: i}} )
+  return arr.sort((a, b) => a.salesInNumber - b.salesInNumber).map(e => e.number)
+}
+const sortBySortArr = (arr, sortArr) => {
+  return sortArr.map( position => arr[position] )
+}
+
+const sortSalesInDistrict = (district) => {
+  const sortArr = getSortArr( byDistrict.find( e => e[0].District == district) )
+  byDistrict = byDistrict.map( singleDistrict => sortBySortArr(singleDistrict, sortArr) )
+  updateGraphs()
 }
 
 d3.csv("./data1.csv")
@@ -99,9 +123,7 @@ d3.csv("./data1.csv")
       console.log(byDistrict)
 
       createLabels (byDistrict[0].map(item => item.Category))
-      districts.map( (dist, iter) => {
-        createGraph(byDistrict[iter], iter)
-      })
+      createGraphs()
   })
 
 
