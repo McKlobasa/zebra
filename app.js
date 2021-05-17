@@ -92,10 +92,10 @@ const sortDistrictsByCategory = (category) => {
 
 
 const getSortArr = ( source ) => {
-  let arr = source
-  arr = arr.map( (e,i) => {return {...e, number: i}} )
+  let arr = source.map( (e,i) => {return {...e, number: i}} )
   return arr.sort((a, b) => a.salesInNumber - b.salesInNumber).map(e => e.number)
 }
+
 const sortBySortArr = (arr, sortArr) => {
   return sortArr.map( position => arr[position] )
 }
